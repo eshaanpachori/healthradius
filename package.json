@@ -22,7 +22,7 @@
     "format": "npm run format --workspace=server && npm run format --workspace=client",
     "build": "npm run build --workspace=client",
     "start": "npm run start --workspace=server",
-    "render-build": "npm install && npm run build --workspace=client",
+    "render-build": "npm install --include=dev && npm run build --workspace=client",
     "render-start": "npm run start --workspace=server"
   },
   "devDependencies": {
