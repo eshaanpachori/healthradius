@@ -398,6 +398,66 @@ const hospitalsData = [
     ambulanceNumber: "+1 (555) 019-9996",
     insuranceAccepted: ["Medicare", "Blue Cross", "Aetna", "UnitedHealth"],
     wheelchairAccessible: true
+  },
+  {
+    name: "Betul District Hospital",
+    slug: "betul-district-hospital",
+    description: "Main government hospital serving Betul district with emergency services.",
+    address: "Sadar Bazar, Betul, Madhya Pradesh",
+    phone: "+91 7141 234567",
+    website: null,
+    email: null,
+    externalRating: 3.8,
+    externalReviewCount: 120,
+    openingHours: ["Monday - Sunday: 12:00 AM - 11:59 PM"],
+    ownershipType: "government",
+    specialties: ["Emergency Medicine", "General Surgery", "Internal Medicine"],
+    facilities: ["ICU", "Blood Bank", "Diagnostic Lab"],
+    emergencyAvailable: true,
+    ambulanceNumber: "108",
+    insuranceAccepted: ["Ayushman Bharat"],
+    wheelchairAccessible: true,
+    customCoordinates: [77.901500, 21.902500]
+  },
+  {
+    name: "Sanjeevani Hospital & Research Center",
+    slug: "sanjeevani-hospital-betul",
+    description: "Private multi-specialty hospital providing advanced critical care.",
+    address: "Kothi Bazar, Betul, Madhya Pradesh",
+    phone: "+91 7141 987654",
+    website: "https://sanjeevanibetul.demo",
+    email: "info@sanjeevanibetul.demo",
+    externalRating: 4.5,
+    externalReviewCount: 85,
+    openingHours: ["Monday - Sunday: 12:00 AM - 11:59 PM"],
+    ownershipType: "private",
+    specialties: ["Cardiology", "Orthopedics", "Pediatrics"],
+    facilities: ["NICU", "24/7 Pharmacy", "Ventilators"],
+    emergencyAvailable: true,
+    ambulanceNumber: "+91 9876543210",
+    insuranceAccepted: ["Star Health", "HDFC ERGO"],
+    wheelchairAccessible: true,
+    customCoordinates: [77.905000, 21.898000]
+  },
+  {
+    name: "Padhar Hospital",
+    slug: "padhar-hospital",
+    description: "Charitable mission hospital well known for oncology and general healthcare in the region.",
+    address: "Padhar, Betul District, Madhya Pradesh",
+    phone: "+91 7141 232323",
+    website: "https://padharhospital.demo",
+    email: "contact@padharhospital.demo",
+    externalRating: 4.8,
+    externalReviewCount: 205,
+    openingHours: ["Monday - Sunday: 12:00 AM - 11:59 PM"],
+    ownershipType: "charitable",
+    specialties: ["Oncology", "Ophthalmology", "General Medicine"],
+    facilities: ["Radiation Units", "Eye Diagnostic Center", "Surgical Suites"],
+    emergencyAvailable: true,
+    ambulanceNumber: "108",
+    insuranceAccepted: ["Ayushman Bharat", "Free Care Program"],
+    wheelchairAccessible: true,
+    customCoordinates: [77.899000, 21.905000]
   }
 ];
 
@@ -427,10 +487,13 @@ const seedHospitals = async () => {
       const existing = await DemoHospital.findOne({ slug: hData.slug });
       
       if (!existing) {
-        const coordinates = generateCoords(centerLat, centerLng, i);
+        const coordinates = hData.customCoordinates || generateCoords(centerLat, centerLng, i);
         
+        const hospitalToCreate = { ...hData };
+        delete hospitalToCreate.customCoordinates;
+
         await DemoHospital.create({
-          ...hData,
+          ...hospitalToCreate,
           location: {
             type: 'Point',
             coordinates
